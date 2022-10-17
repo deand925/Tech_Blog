@@ -11,4 +11,41 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.post('/', async (req, res) => {
+    try {
+        const dbUser = await User.create(
+            req.body,
+        )
+        res.json(dbUser)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+router.post('/login', async (req, res) => {
+    try {
+        const dbUser = await User.findOne({
+           where: {
+            username: req.body.username,
+           } 
+        })
+        if(!dbUser){
+            res.status(500).json('Username not found. Please try again or signup.')
+        }
+
+        const pwValidate = dbUser.checkPassword(req.body.password);
+        
+        if(!pwValidate){
+            res.status(500).json('Password is incorrect. Please try again.')
+        } 
+        req.session.save(() => {
+            req.session.userID = dbUser.id;
+            res.json('You are now logged in!');
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+
 module.exports = router;

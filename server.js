@@ -14,11 +14,12 @@ const hbs = exphbs.create({});
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// const sessionSettings = {
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-// };
+const sessionSettings = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+};
+app.use(session(sessionSettings));
 
 // we set up handlebars and connect it with express
 app.engine('handlebars', hbs.engine);

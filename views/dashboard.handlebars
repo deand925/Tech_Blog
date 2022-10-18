@@ -12,4 +12,12 @@
    </div>
 </form>
 
+<h2>Your Posts</h2>
+<ul class="post-list">
+    {{#each post as |post|}}
+    <li>
+        {{> post-info post}}--- <a href="/post/edit/{{id}}">edit post</a><hr>
+    </li>
+    {{/each}}
+</ul>
 <script src="/js/addPost.js"></script>

@@ -1,43 +1,31 @@
-const $userNameInput = document.getElementById('userNameInput');
-const $passwordInput = document.getElementById('passwordInput');
-const $signUpBtn = document.getElementById('signUpBtn');
-
-
-$signUpBtn.addEventListener('click', async (event) => {
+async function signupFormHandler(event){
   event.preventDefault();
 
-  const userInput = $userNameInput.value;
-  const passwordInput = $passwordInput.value;
+  const username = document.querySelector('#usernameNameInput').value.trim();
+  const password = document.querySelector('#passwordInput').value.trim();
 
-  if (userInput.trim().length === 0) {
-    alert('Username must be provided');
-    return;
-  }
+  if (username && password) {
+      console.log(username);
+      const response = await fetch('/api/user', {
+          method: 'post',
+          body: JSON.stringify({
+              username,
+              password
+          }),
+          headers: {'Content-Type': 'application/json'}
+      });
 
-  if (passwordInput.trim().length === 0) {
-    alert('Password must be provided');
-    return;
+      if (response.ok) {
+          console.log('it worked!')
+          document.location.replace('/dashboard');
+      }
+      else
+      {
+          alert('An error has occured');
+          document.querySelector('#userNameInput').value = '';
+          document.querySelector('#passwordInput').value = '';
+      }
   }
+}
 
-  try {
-    const res = await fetch('/api/user', {
-      method: 'POST',
-      body: JSON.stringify({
-        username: userInput,
-        password: passwordInput,
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    
-  if (res.ok) {
-    console.log('all signed up!');
-    document.location.replace('/login');
-  } else {
-    alert('Unable to sign up!');
-  }
-  } catch (error) {
-    console.log(error);
-  }
-});
+document.querySelector('#signUpBtn').addEventListener('submit', signupFormHandler);

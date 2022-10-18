@@ -1,44 +1,28 @@
-const $userNameInput = document.getElementById('userNameInput');
-const $passwordInput = document.getElementById('passwordInput');
-const $logInBtn = document.getElementById('logInBtn');
-
-
-$logInBtn.addEventListener('click', async (event) => {
+async function loginFormHandler(event){
   event.preventDefault();
 
-  const username = $userNameInput.value;
-  const password = $passwordInput.value;
+  const $userNameInput = document.getElementById('userNameInput').value.trim();
+  const $passwordInput = document.getElementById('passwordInput').value.trim();
 
-  if (username.trim().length === 0) {
-    alert('Username must be provided');
-    return;
-  }
+  if ($userNameInput && $passwordInput) {
+      const response = await fetch('/api/user/login', {
+          method: 'post',
+          body: JSON.stringify({
+              username,
+              password
+          }),
+          headers: {'Content-Type': 'application/json'} 
+      });
 
-  if (password.trim().length === 0) {
-    alert('Password must be provided');
-    return;
+      if (response.ok) {
+          document.location.replace('/dashboard');
+      }
+      else
+      {
+          alert('Unable to login with these credentials!');
+          document.querySelector('#password-field').value = '';
+      }
   }
+}
 
-  try {
-    const res = await fetch('/api/user/login', {
-      method: 'POST',
-  
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    
-    if (res.ok) {
-      console.log('logged in');
-      document.location.replace('/dashboard');
-    } else {
-      alert('Unable to log in with these credentials!');
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
+document.querySelector('#logInBtn').addEventListener('submit', loginFormHandler);

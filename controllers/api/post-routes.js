@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
 
 // updates a post
 // adds /api/post before
-router.put('/edit/:id', async (req, res) => {
+router.put(':id', async (req, res) => {
     try {
         const dbPosts = await Post.update(
             {

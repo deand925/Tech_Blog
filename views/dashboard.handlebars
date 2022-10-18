@@ -16,8 +16,9 @@
 <ul class="post-list">
     {{#each post as |post|}}
     <li>
-        {{> post-info post}}--- <a href="/post/edit/{{id}}">edit post</a><hr>
+        {{> post-info post}}--- <a href="/dashboard/post/edit/{{id}}">edit post</a><hr>
     </li>
     {{/each}}
 </ul>
-<script src="/js/addPost.js"></script>
+<script src="/public/js/addPost.js"></script>
+<script src="/public/js/login.js"></script>

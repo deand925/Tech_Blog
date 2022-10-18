@@ -1,41 +1,28 @@
-const $postTitle = document.getElementById('postTitle');
-const $textInput = document.getElementById('textInput');
-const $subBtn = document.getElementById('subBtn');
-
-$subBtn.addEventListener('submit', async (event) => {
+async function newPostHandler(event){
     event.preventDefault();
 
-    const postTitle = $postTitle.value;
-    const textInput = $textInput.value;
+    const $postTitle = document.querySelector('#postTitle').value.trim();
+    const $textInput = document.querySelector('#textInput').value;
+    text_content.replace(/\n\r?/g, '<br />');
 
-    // checks if any value was entered into title field
-    if (postTitle.trim().length === 0) {
-        alert('Post must have a title!');
-        return;
-    }
-    // checks if any value was entered into input field
-    if (textInput.trim().length === 0) {
-        alert('Post must have a body!');
-        return;
-    }
-
-    try {
-        const res = await fetch('api/posts', {
-            method: 'post',
-            body: JSON.stringify({
-                title,
-                text_content
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const post = await res.json();
-        if (post) {
-            console.log(post, 'Post worked')
+    const response = await fetch('api/posts', {
+        method: 'post',
+        body: JSON.stringify({
+            title,
+            text_content
+        }),
+        headers: {
+            'Content-Type': 'application/json'
         }
+    });
 
-    } catch (error) {
-        console.log(error);
+    if (response.ok){
+        document.location.replace('/dashboard');
     }
-});
+    else
+    {
+        alert(response.statusText);
+    }
+}
+
+document.querySelector('#subBtn').addEventListener('submit', newPostHandler);

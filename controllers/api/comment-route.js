@@ -1,7 +1,8 @@
 const router = require('express').Router();
 
-const { Comment, User, Post } = require('../.././models');
+const { Comment, User } = require('../.././models');
 
+// get all comments
 router.get('/', async (req, res) => {
     try {
         const dbComments = await Comment.findAll();
@@ -11,6 +12,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+// get coment by id
 router.get('/:id', async (req, res) => {
     try {
         const dbComments = await Comment.findOne({
@@ -24,6 +26,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// create a comment
 router.post('/', async (req, res) => {
     try {
         const newComment = await Comment.create({
@@ -42,6 +45,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+// update comment by id
 router.put('/:id', async (req, res) => {
     try {
         const dbComments = await Comment.update({
@@ -59,6 +63,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// delete comment by id
 router.delete('/:id', async (req, res) => {
     try {
         const dbComments = await Comment.destroy({

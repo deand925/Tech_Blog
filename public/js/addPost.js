@@ -8,11 +8,12 @@ $subBtn.addEventListener('submit', async (event) => {
     const postTitle = $postTitle.value;
     const textInput = $textInput.value;
 
+    // checks if any value was entered into title field
     if (postTitle.trim().length === 0) {
         alert('Post must have a title!');
         return;
     }
-
+    // checks if any value was entered into input field
     if (textInput.trim().length === 0) {
         alert('Post must have a body!');
         return;

@@ -20,21 +20,23 @@ $signUpBtn.addEventListener('click', async (event) => {
   }
 
   try {
-    const res = await fetch('/api/users', {
+    const res = await fetch('/api/user', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
       body: JSON.stringify({
         username: userInput,
         password: passwordInput,
-      })
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
     });
     
-    const user = await res.json();
-    if (user) {
-        console.log('We made it', user)
-    }
+  if (res.ok) {
+    console.log('all signed up!');
+    document.location.replace('/login');
+  } else {
+    alert('Unable to sign up!');
+  }
   } catch (error) {
     console.log(error);
   }

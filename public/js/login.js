@@ -1,39 +1,42 @@
 const $userNameInput = document.getElementById('userNameInput');
 const $passwordInput = document.getElementById('passwordInput');
-const $signUpBtn = document.getElementById('signUpBtn');
+const $logInBtn = document.getElementById('logInBtn');
 
 
-$signUpBtn.addEventListener('click', async (event) => {
+$logInBtn.addEventListener('click', async (event) => {
   event.preventDefault();
 
-  const userInput = $userNameInput.value;
-  const passwordInput = $passwordInput.value;
+  const username = $userNameInput.value;
+  const password = $passwordInput.value;
 
-  if (userInput.trim().length === 0) {
+  if (username.trim().length === 0) {
     alert('Username must be provided');
     return;
   }
 
-  if (passwordInput.trim().length === 0) {
+  if (password.trim().length === 0) {
     alert('Password must be provided');
     return;
   }
 
   try {
-    const res = await fetch('/api/users', {
+    const res = await fetch('/api/user/login', {
       method: 'POST',
+  
+      body: JSON.stringify({
+        username,
+        password,
+      }),
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        username: userInput,
-        password: passwordInput,
-      })
     });
     
-    const user = await res.json();
-    if (user) {
-        console.log('We made it', user)
+    if (res.ok) {
+      console.log('logged in');
+      document.location.replace('/dashboard');
+    } else {
+      alert('Unable to log in with these credentials!');
     }
   } catch (error) {
     console.log(error);

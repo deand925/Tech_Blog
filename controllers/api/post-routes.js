@@ -2,7 +2,8 @@ const router = require('express').Router();
 
 const { Post, Comment, User } = require('../.././models');
 
-
+// gets all posts
+// adds /api/post before
 router.get('/', async (req, res) => {
     try {
         const dbPosts = await Post.findAll({});
@@ -13,6 +14,8 @@ router.get('/', async (req, res) => {
     }
 })
 
+// get posts by id
+// adds /api/post before
 router.get('/:id', async (req, res) => {
     const dbPosts = await Post.findOne({
         where: {
@@ -30,6 +33,9 @@ router.get('/:id', async (req, res) => {
     res.json(dbPosts)
 
 })
+
+// creates a new post
+// adds /api/post before
 router.post('/', async (req, res) => {
     try {
         const dbPost = await Post.create({
@@ -50,6 +56,8 @@ router.post('/', async (req, res) => {
     }
 });
 
+// updates a post
+// adds /api/post before
 router.put('/:id', async (req, res) => {
     try {
         const dbPosts = await Post.update(
@@ -73,6 +81,8 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+// delets a comment by id
+// adds /api/post before
 router.delete('/:id', async (req, res) => {
     try {
         const dbPosts = await Comment.destroy(
@@ -91,9 +101,4 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-// findAll
-//findOne
-//create
-// put route to update by id
-// delete by id
 module.exports = router;

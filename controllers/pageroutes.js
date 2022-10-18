@@ -1,10 +1,35 @@
 const router = require("express").Router();
 const { Post, Comment, User } = require("../models");
 
-router.get("/", (req, res) => {
-  res.render("homepage", {
-    loggedIn: req.session.userID
+// Home
+router.get('/',(req, res) => {
+  try {
+    const postDb = Post.findAll({
+      attributes: [
+          'id',
+          'title',
+          'created_at'
+      ],
+      include: [
+          {
+              model: User,
+              attributes: ['username']
+          }
+      ]
+  })
+
+  const posts = postDb.map(post => post.get({plain:true}));
+
+  res.render('homepage', {
+      posts,
+      loggedIn: req.session.loggedIn,
+      user: req.session.username
   });
+
+  } catch (error) {
+    console.log(err);
+      res.status(500).json(err);
+  }
 });
 
 //Edit post

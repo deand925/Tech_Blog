@@ -36,11 +36,11 @@ router.get('/post/edit/:id', (req, res) => {
         }
       ]
     })
-    if (!postData) {
+    if (!postDb) {
       res.status(404).json({ message: "No post found" });
       return;
     }
-    const post = postData.get({ plain: true });
+    const post = postDb.get({ plain: true });
     if (post.user_id !== req.session.user_id) {
       console.log('WRONG USER');
       res.redirect('/');
@@ -58,7 +58,7 @@ router.get('/login',(req, res) => {
       res.redirect('/');
       return;
   }
-  res.render('login'); //name of template to use
+  res.render('login'); 
 });
 
 router.get('/signup',(req, res) => {
@@ -66,7 +66,7 @@ router.get('/signup',(req, res) => {
       res.redirect('/');
       return;
   }
-  res.render('signup'); //name of template to use
+  res.render('signup'); 
 });
 
 // Dashboard
